@@ -1,0 +1,22 @@
+#!/bin/bash
+
+make clean
+make
+
+# WATERMARK ADD - For all pictures
+RANDOM=$$
+for n in pictures/*
+do
+    if [[ ! -d "$n" ]]
+	then continue
+    fi
+    s=$( echo $n | cut -d '/' -f 2)
+    for ns in $n/watermark_*
+    do
+	rm $ns
+    done
+    ns=$n/$s.png
+    r=$RANDOM
+    echo $r
+    ./watermark 1.3 $ns "watermark_"$s"_"$r".png" add $r
+done
